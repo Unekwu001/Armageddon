@@ -1,0 +1,6 @@
+@Armageddon.Server_HostAddress = http://localhost:5100
+
+GET {{Armageddon.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

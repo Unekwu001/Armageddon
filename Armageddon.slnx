@@ -1,0 +1,8 @@
+<Solution>
+  <Project Path="Armageddon.AppHost/Armageddon.AppHost.csproj" />
+  <Project Path="armageddon.client/armageddon.client.esproj">
+    <Build />
+  </Project>
+  <Project Path="Armageddon.Server/Armageddon.Server.csproj" />
+  <Project Path="Armageddon.ServiceDefaults/Armageddon.ServiceDefaults.csproj" />
+</Solution>
