@@ -4,7 +4,7 @@ namespace Armageddon.Server.Data.Models.UserModels
 {
     public class User : Base,ISoftDeletableEntity
     {
-        public required string UserCode { get; set; }
+        public  string? UserCode { get; set; }
         public required string PasswordHash { get; set; }
         public string? UserName { get; set; }
         public string? Email { get; set; }

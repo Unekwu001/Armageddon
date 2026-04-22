@@ -1,10 +1,8 @@
-﻿namespace Armageddon.Server.Data.Models.UserModels
+﻿
+namespace Armageddon.Server.Data.Models.UserModels
 {
-    public class UserType : IHasIntegerId
+    public class UserType : LookupBase, IHasIntegerId
     {
-        public int Id { get; set; }
-        public string Name { get; set; } = null!;
-        public string Code { get; set; } = null!;
     }
     
 }

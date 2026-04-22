@@ -1,37 +1,22 @@
-using Asp.Versioning;
+using Armageddon.Server.Data.ProgramSetup.DI;
+using Armageddon.Server.ProgramSetup.DbSetup;
 using Scalar.AspNetCore;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
-
-// Add services to the container.
-
-builder.Services.AddControllers();
-
-
-builder.Services.AddApiVersioning(options =>
-{
-    options.DefaultApiVersion = new ApiVersion(1, 0);
-    options.AssumeDefaultVersionWhenUnspecified = true;
-    options.ReportApiVersions = true;
-})
-.AddApiExplorer(options =>    
-{
-    options.GroupNameFormat = "'v'VVV"; 
-    options.SubstituteApiVersionInUrl = true;
-});
-
-builder.Services.AddOpenApi();
+builder.Logging.AddFilter("EnumSeederHostedService", LogLevel.Warning);
+builder.Logging.AddFilter("Microsoft.EntityFrameworkCore.Database.Command", LogLevel.Warning);
+builder.Services.SetupDependencyInjection(builder.Configuration);
 
 var app = builder.Build();
 
+app.ApplyDatabaseMigrations();
 app.MapDefaultEndpoints();
-
 app.UseDefaultFiles();
 app.MapStaticAssets();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
@@ -44,13 +29,9 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.MapFallbackToFile("/index.html");
 
 app.Run();

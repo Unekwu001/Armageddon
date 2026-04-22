@@ -10,6 +10,11 @@ namespace Armageddon.Server.Data.Db;
 public class AppDbContext : DbContext
 {
     public DbSet<User> Users { get; set; }
+    public DbSet<UserType> UserTypes { get; set; } 
+
+
+
+
 
 
     private readonly AuditingAndSoftDeleteInterceptor _auditingInterceptor;
@@ -35,10 +40,12 @@ public class AppDbContext : DbContext
         {
             entity.HasKey(e => e.Id);
             entity.Property(e => e.Id).IsRequired().ValueGeneratedOnAdd();
-            entity.Property(e => e.UserType).IsRequired();  
+            entity.Property(entity => entity.UserCode).IsRequired().HasMaxLength(10).ValueGeneratedOnAdd();
+            entity.Property(e => e.UserTypeId).IsRequired();  
             entity.Property(e => e.Email).HasMaxLength(255);
             entity.Property(e => e.PasswordHash).IsRequired();
             entity.Property(e => e.PhoneNumber).HasMaxLength(20);
+            entity.Property(e => e.WalletAddress).HasMaxLength(200);
         });
 
 
