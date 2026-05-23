@@ -361,3 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/Armageddon.Server/appsettings.json
+/Armageddon.Server/appsettings.Development.json
