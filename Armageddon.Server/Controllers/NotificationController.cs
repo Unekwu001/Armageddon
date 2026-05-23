@@ -1,0 +1,11 @@
+﻿
+using Microsoft.AspNetCore.Mvc;
+
+namespace Armageddon.Server.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class NotificationController : ControllerBase
+    {
+    }
+}

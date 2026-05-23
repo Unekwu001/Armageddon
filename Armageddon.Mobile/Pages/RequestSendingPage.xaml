@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:maps="clr-namespace:Microsoft.Maui.Controls.Maps;assembly=Microsoft.Maui.Controls.Maps"
+             x:Class="Armageddon.Mobile.Pages.RequestSendingPage"
+             BackgroundColor="Black"
+             NavigationPage.HasNavigationBar="False">
+
+    <Grid Padding="20">
+        <VerticalStackLayout Spacing="20" VerticalOptions="Fill">
+
+            <!-- Header -->
+            <Label Text="Casting Your Request" 
+                   FontSize="24" 
+                   FontAttributes="Bold" 
+                   TextColor="White" 
+                   HorizontalOptions="Center"/>
+
+            <!-- Dynamic Status -->
+            <Label x:Name="StatusLabel" 
+                   Text="Finding nearby sellers..." 
+                   FontSize="18" 
+                   TextColor="#00C853" 
+                   HorizontalOptions="Center" 
+                   FontAttributes="Bold"/>
+
+            <!-- Map / Placeholder -->
+            <ContentView HeightRequest="260">
+                <Grid>
+                    <maps:Map x:Name="RequestMap" 
+                              IsShowingUser="True"
+                              MapType="Street"
+                              HorizontalOptions="Fill"
+                              VerticalOptions="Fill"
+                              IsVisible="False"/>
+                    <!-- Placeholder for Windows -->
+                    <Border BackgroundColor="#1A1A1A" 
+                            StrokeShape="RoundRectangle 12"
+                            x:Name="MapPlaceholder">
+                        <Label Text="🗺️ Live Map (Android Only)" 
+                               TextColor="#888" 
+                               HorizontalOptions="Center" 
+                               VerticalOptions="Center"
+                               FontSize="18"/>
+                    </Border>
+                </Grid>
+            </ContentView>
+
+            <!-- Progress Steps -->
+            <VerticalStackLayout Spacing="10">
+                <Label x:Name="Step1" Text="● Searching nearby sellers" TextColor="#00C853" FontSize="16"/>
+                <Label x:Name="Step2" Text="○ Expanding search radius" TextColor="#666" FontSize="16"/>
+            </VerticalStackLayout>
+
+            <!-- Cancel Button -->
+            <Button Text="Cancel Request" 
+                    BackgroundColor="#FF1744" 
+                    TextColor="White" 
+                    HeightRequest="56" 
+                    CornerRadius="12"
+                    FontSize="18"
+                    Clicked="OnCancelClicked"/>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

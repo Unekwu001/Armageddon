@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:behaviors="clr-namespace:Armageddon.Mobile.Behaviors"
+             x:Class="Armageddon.Mobile.Pages.BuyerHomePage"
+             BackgroundColor="Black">
+
+    <Grid>
+        <!-- BOTTOM SHEET -->
+        <Border StrokeShape="RoundRectangle 25" 
+                BackgroundColor="#0F0F0F" 
+                Padding="20" 
+                VerticalOptions="End" 
+                HeightRequest="320">
+
+            <VerticalStackLayout Spacing="18">
+                <BoxView HeightRequest="5" WidthRequest="50" 
+                         CornerRadius="3" Color="#444" 
+                         HorizontalOptions="Center"/>
+
+                <Label Text="What do you need?" 
+                       FontSize="13" 
+                       FontAttributes="Bold" 
+                       TextColor="White"/>
+
+                <!-- Improved Product Type Picker -->
+                <Border StrokeShape="RoundRectangle 12"
+                        BackgroundColor="#1A1A1A"
+                        Padding="1"
+                        StrokeThickness="1"
+                        Stroke="#333">
+                    <Picker x:Name="ProductTypePicker" 
+                            Title="Select Product Type"
+                            TitleColor="#888"
+                            TextColor="White"
+                            BackgroundColor="Transparent"
+                            FontSize="Small"
+                            HeightRequest="4"
+                            Margin="12,6"/>
+                </Border>
+
+                <Entry x:Name="QuantityEntry" 
+                       Placeholder="Quantity (grams)" 
+                       Keyboard="Numeric"
+                       BackgroundColor="#1A1A1A" 
+                       TextColor="White" 
+                       PlaceholderColor="#888" 
+                       HeightRequest="52"
+                       Margin="12,0">   
+
+                    <Entry.Behaviors>
+                        <behaviors:NumericOnlyBehavior />
+                    </Entry.Behaviors>
+                </Entry>
+
+                <Button Text="Request Now" 
+                        BackgroundColor="#00C853" 
+                        TextColor="Black" 
+                        CornerRadius="12" 
+                        HeightRequest="52"
+                        Clicked="OnRequestClicked"/>
+            </VerticalStackLayout>
+        </Border>
+    </Grid>
+</ContentPage>

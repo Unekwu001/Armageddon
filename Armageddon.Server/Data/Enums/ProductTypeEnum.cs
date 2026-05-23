@@ -29,6 +29,12 @@ namespace Armageddon.Server.Data.Enums
         Colo = 8,
 
         [Display(Name = "Tobacco")]
-        Tobacco = 9
+        Tobacco = 9,
+
+        [Display(Name = "Vape")]
+        Vape = 10,
+
+        [Display(Name = "Cigar")]
+        Cigar = 11
     }
 }

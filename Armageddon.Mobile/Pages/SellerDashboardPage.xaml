@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Armageddon.Mobile.Pages.SellerDashboardPage"
+             BackgroundColor="#0B0B0B">
+
+    <Grid Padding="20" RowDefinitions="Auto,*,Auto">
+
+        <!-- HEADER -->
+        <VerticalStackLayout>
+            <Label Text="Seller Dashboard"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   TextColor="White"/>
+
+            <Label Text="Incoming requests"
+                   FontSize="13"
+                   TextColor="#888"/>
+        </VerticalStackLayout>
+
+        <!-- REQUEST LIST -->
+        <CollectionView x:Name="RequestsList"
+                        Grid.Row="1">
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+
+                    <Border StrokeShape="RoundRectangle 16"
+                            BackgroundColor="#1A1A1A"
+                            Padding="15"
+                            Margin="0,10">
+
+                        <VerticalStackLayout Spacing="8">
+
+                            <Label Text="{Binding ItemName}"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="White"/>
+
+                            <Label Text="{Binding Quantity}"
+                                   TextColor="#AAA"/>
+
+                            <Button Text="Accept"
+                                    BackgroundColor="#00C853"
+                                    TextColor="Black"
+                                    Clicked="OnAcceptClicked"/>
+
+                        </VerticalStackLayout>
+
+                    </Border>
+
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+
+        <!-- STATUS -->
+        <Border Grid.Row="2"
+                StrokeShape="RoundRectangle 16"
+                BackgroundColor="#121212"
+                Padding="15">
+
+            <Grid ColumnDefinitions="*,Auto">
+
+                <Label Text="Status: Online"
+           TextColor="#00C853"
+           VerticalOptions="Center"/>
+
+                <Switch Grid.Column="1"
+            IsToggled="True"
+            VerticalOptions="Center"/>
+
+            </Grid>
+
+        </Border>
+
+    </Grid>
+
+</ContentPage>

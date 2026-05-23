@@ -5,11 +5,14 @@ namespace Armageddon.Server.Data.Models.ProductModels
 {
     public class Product : Base, ISoftDeletableEntity
     {
-        public string Name { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;    
         public string Description { get; set; } = string.Empty;
+        public string ProductCode { get; set; } = string.Empty;
         public decimal PricePerGram { get; set; } 
         public int Stock { get; set; }
         public string? ImageUrl { get; set; }
+        public int ProductTypeId { get; set; }
+        public ProductType ProductType { get; set; } = null!;
         public Guid SellerId { get; set; }
         public User Seller { get; set; } = null!;
     }

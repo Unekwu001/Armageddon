@@ -1,6 +1,7 @@
-using Armageddon.Server.Data.ProgramSetup.DI;
-using Armageddon.Server.ProgramSetup.DbSetup;
+using Armageddon.Server.Common.ProgramSetup.DbSetup;
+using Armageddon.Server.Common.ProgramSetup.DI;
 using Scalar.AspNetCore;
+using System.Text.Json.Serialization;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +10,10 @@ builder.AddServiceDefaults();
 builder.Logging.AddFilter("EnumSeederHostedService", LogLevel.Warning);
 builder.Logging.AddFilter("Microsoft.EntityFrameworkCore.Database.Command", LogLevel.Warning);
 builder.Services.SetupDependencyInjection(builder.Configuration);
+builder.Services.ConfigureHttpJsonOptions(options =>
+{
+    options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
 
 var app = builder.Build();
 
@@ -24,12 +29,16 @@ if (app.Environment.IsDevelopment())
     {
         options
             .WithTitle("Armageddon - Backend Service")
-            .WithTheme(ScalarTheme.DeepSpace)        // Try: Purple, Mars, Moon, etc.
-            .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient);
+            .WithTheme(ScalarTheme.DeepSpace)
+            .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient)
+            .EnableDarkMode()
+            .AddPreferredSecuritySchemes("Bearer")
+            .AddHttpAuthentication("Bearer", _ => { });
     });
 }
 
 app.UseHttpsRedirection();
+app.UseCors();
 app.UseAuthorization();
 app.MapControllers();
 app.MapFallbackToFile("/index.html");

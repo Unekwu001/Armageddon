@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Armageddon.Mobile.Pages.RegisterPage"
+             BackgroundColor="#0B0B0B">
+
+    <Grid Padding="24">
+        <VerticalStackLayout Spacing="18" VerticalOptions="Center">
+
+            <Label Text="Create Account"
+                   FontSize="28"
+                   FontAttributes="Bold"
+                   TextColor="White"/>
+
+            <Label Text="Register as buyer or seller"
+                   FontSize="14"
+                   TextColor="#AAAAAA"/>
+
+            <Border StrokeShape="RoundRectangle 12"
+                    BackgroundColor="#1A1A1A"
+                    Padding="12">
+                <Entry x:Name="EmailEntry"
+                       Placeholder="Email"
+                       Keyboard="Email"
+                       TextColor="White"
+                       PlaceholderColor="#888"/>
+            </Border>
+
+            <Border StrokeShape="RoundRectangle 12"
+                    BackgroundColor="#1A1A1A"
+                    Padding="12">
+                <Entry x:Name="UsernameEntry"
+                       Placeholder="Username"
+                       TextColor="White"
+                       PlaceholderColor="#888"/>
+            </Border>
+
+            <Border StrokeShape="RoundRectangle 12"
+                    BackgroundColor="#1A1A1A"
+                    Padding="12">
+                <Entry x:Name="PasswordEntry"
+                       Placeholder="Password"
+                       IsPassword="True"
+                       TextColor="White"
+                       PlaceholderColor="#888"/>
+            </Border>
+
+            <Border StrokeShape="RoundRectangle 12"
+                    BackgroundColor="#1A1A1A"
+                    Padding="12">
+                <Picker x:Name="UserTypePicker"
+                        Title="Select account type"
+                        TextColor="White"
+                        TitleColor="#888">
+                    <Picker.Items>
+                        <x:String>Buyer</x:String>
+                        <x:String>Seller</x:String>
+                    </Picker.Items>
+                </Picker>
+            </Border>
+
+            <Button Text="Register"
+                    BackgroundColor="#00C853"
+                    TextColor="Black"
+                    CornerRadius="12"
+                    HeightRequest="50"
+                    Clicked="OnRegisterClicked"/>
+
+            <Label Text="Already have an account? Login"
+                   TextColor="#00C853"
+                   HorizontalOptions="Center">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnLoginTapped"/>
+                </Label.GestureRecognizers>
+            </Label>
+
+        </VerticalStackLayout>
+    </Grid>
+
+</ContentPage>

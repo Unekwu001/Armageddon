@@ -3,6 +3,7 @@
   <Project Path="armageddon.client/armageddon.client.esproj">
     <Build />
   </Project>
+  <Project Path="Armageddon.Mobile/Armageddon.Mobile.csproj" />
   <Project Path="Armageddon.Server/Armageddon.Server.csproj" />
   <Project Path="Armageddon.ServiceDefaults/Armageddon.ServiceDefaults.csproj" />
 </Solution>

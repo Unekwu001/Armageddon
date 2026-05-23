@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Armageddon.Mobile.Pages.LoginPage"
+             BackgroundColor="#0B0B0B">
+
+    <Grid Padding="24">
+        <VerticalStackLayout Spacing="25" VerticalOptions="Center">
+
+            <!-- Title -->
+            <VerticalStackLayout Spacing="6">
+                <Label Text="Welcome Back"
+                       FontSize="28"
+                       FontAttributes="Bold"
+                       TextColor="White"/>
+
+                <Label Text="Login to continue"
+                       FontSize="14"
+                       TextColor="#AAAAAA"/>
+            </VerticalStackLayout>
+
+            <!-- Email -->
+            <Border StrokeShape="RoundRectangle 12"
+                    BackgroundColor="#1A1A1A"
+                    Padding="12">
+
+                <Entry x:Name="EmailEntry"
+                       Placeholder="Email"
+                       Keyboard="Email"
+                       TextColor="White"
+                       PlaceholderColor="#888"/>
+            </Border>
+
+            <!-- Password -->
+            <Border StrokeShape="RoundRectangle 12"
+                    BackgroundColor="#1A1A1A"
+                    Padding="12">
+
+                <Entry x:Name="PasswordEntry"
+                       Placeholder="Password"
+                       IsPassword="True"
+                       TextColor="White"
+                       PlaceholderColor="#888"/>
+            </Border>
+
+            <!-- Login Button -->
+            <Button Text="Login"
+                    BackgroundColor="#00C853"
+                    TextColor="Black"
+                    CornerRadius="12"
+                    HeightRequest="50"
+                    Clicked="OnLoginClicked"/>
+
+            <!-- Divider -->
+            <Label Text="OR"
+                   HorizontalOptions="Center"
+                   TextColor="#666"/>
+
+            <!-- Register -->
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="5">
+                <Label Text="Don't have an account?"
+                       TextColor="#888"/>
+
+                <Label Text="Register"
+                       TextColor="#00C853"
+                       FontAttributes="Bold">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnRegisterTapped"/>
+                    </Label.GestureRecognizers>
+                </Label>
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+    </Grid>
+
+</ContentPage>

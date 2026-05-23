@@ -1,4 +1,5 @@
-﻿using Armageddon.Server.Core.Dtos;
+﻿using Armageddon.Server.Common.Dtos;
+using Armageddon.Server.Common.Utils;
 using Armageddon.Server.Core.Repos.UserRepository;
 using Armageddon.Server.Data.Enums;
 using Armageddon.Server.Data.Models.UserModels;
@@ -9,12 +10,13 @@ using System.Runtime;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Armageddon.Server.Core.Services
 {
     public interface IUserService
     {
-        Task<User> RegisterAsync(RegisterUserDto dto);
+        Task<User> RegisterAsync(RegisterUserDto dto, UserTypeEnum userTypeEnum);
         Task<string> LoginAsync(LoginDto dto);
         Task<User?> GetByIdAsync(Guid id);
     }
@@ -33,36 +35,34 @@ namespace Armageddon.Server.Core.Services
 
 
 
-        public async Task<User> RegisterAsync(RegisterUserDto dto)
+        public async Task<User> RegisterAsync(RegisterUserDto dto, UserTypeEnum userTypeEnum)
         {
-            if (string.IsNullOrWhiteSpace(dto.Email))
-                throw new ValidationException("Email is required");
-
-            if (string.IsNullOrWhiteSpace(dto.Password))
-                throw new ValidationException("Password is required");
-
-            if (await _userRepo.ExistsByEmailAsync(dto.Email))
-                throw new ValidationException("Email already exists");
-
-            if (await _userRepo.ExistsByUsernameAsync(dto.Username))
-                throw new ValidationException("Username already exists");
-
-            var passwordHash = HashPassword(dto.Password);
-
-            var user = new User
+            try
             {
-                UserName = dto.Username.Trim(),
-                PasswordHash = passwordHash
-            };
+                ValidateInput(dto);
 
-            var createdUser = await _userRepo.AddAsync(user);
+                var (email, username) = Normalize(dto);
 
-            _logger.LogInformation("User registered: {Email}", createdUser.Email);
+                await EnsureNoDuplicatesAsync(email, username);
 
-            return createdUser;
+                var user = BuildUser(dto, email, username, userTypeEnum);
+
+                var createdUser = await _userRepo.AddAsync(user);
+
+                _logger.LogInformation("User registered: {Email}", createdUser.Email);
+
+                return createdUser;
+            }
+            catch (ValidationException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while registering user");
+                throw new ValidationException("An error occurred while processing your request");
+            }
         }
-
-
 
 
         public async Task<string> LoginAsync(LoginDto dto)
@@ -132,10 +132,105 @@ namespace Armageddon.Server.Core.Services
                 new Claim(ClaimTypes.Email, user.Email ?? string.Empty),
                 new Claim(ClaimTypes.Role, ((UserTypeEnum)user.UserTypeId).ToString()),
                 new Claim(ClaimTypes.Actor, user.UserCode ?? string.Empty),
-                new Claim(ClaimTypes.MobilePhone, user.PhoneNumber ?? string.Empty)
+                new Claim(ClaimTypes.MobilePhone, user.PhoneNumber ?? string.Empty),
+                new Claim(ClaimTypes.Name, user.UserName ?? string.Empty),
             };
             return GenerateAccessToken(claims, _settings);
         }
+
+
+
+        private void ValidateInput(RegisterUserDto dto)
+        {
+            if (string.IsNullOrWhiteSpace(dto.Email))
+                throw new ValidationException("Email is required");
+
+            if (string.IsNullOrWhiteSpace(dto.Password))
+                throw new ValidationException("Password is required");
+
+            if (string.IsNullOrWhiteSpace(dto.Username))
+                throw new ValidationException("Username is required");
+
+            ValidateEmail(dto.Email);
+            ValidateUsername(dto.Username);
+            ValidatePassword(dto.Password);
+        }
+
+
+
+
+
+
+
+        private void ValidateEmail(string email)
+        {
+            var regex = new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
+            if (!regex.IsMatch(email))
+                throw new ValidationException("Invalid email format");
+        }
+
+
+
+
+        private void ValidateUsername(string username)
+        {
+            var regex = new Regex(@"^[A-Za-z0-9]{4,20}$");
+            if (!regex.IsMatch(username))
+                throw new ValidationException("Username must be 4-20 alphanumeric characters");
+        }
+
+
+
+
+        private void ValidatePassword(string password)
+        {
+            var regex = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$");
+            if (!regex.IsMatch(password))
+                throw new ValidationException("Password must be at least 8 characters and include uppercase, lowercase, number, and special character");
+        }
+
+
+
+
+        private (string Email, string Username) Normalize(RegisterUserDto dto)
+        {
+            var email = dto.Email.Trim().ToLowerInvariant();
+            var username = dto.Username.Trim().ToUpperInvariant();
+
+            return (email, username);
+        }
+
+
+
+
+        private async Task EnsureNoDuplicatesAsync(string email, string username)
+        {
+            if (await _userRepo.ExistsByEmailAsync(email))
+                throw new ValidationException("Email already exists");
+
+            if (await _userRepo.ExistsByUsernameAsync(username))
+                throw new ValidationException("Username already exists");
+        }
+
+
+
+
+        private User BuildUser(RegisterUserDto dto, string email, string username, UserTypeEnum userTypeEnum)
+        {
+            if (!Enum.IsDefined(typeof(UserTypeEnum), userTypeEnum) || (int)userTypeEnum == 0)
+                throw new ValidationException("Invalid user type");
+            return new User
+            {
+                UserName = username,
+                Email = email,
+                UserCode = Generator.GenerateUserCode().ToUpperInvariant(),
+                UserTypeId = (int)userTypeEnum,
+                PasswordHash = HashPassword(dto.Password)
+            };
+        }
+
+
+
 
     }
 }

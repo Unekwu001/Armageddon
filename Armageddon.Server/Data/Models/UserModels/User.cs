@@ -9,6 +9,7 @@ namespace Armageddon.Server.Data.Models.UserModels
         public string? UserName { get; set; }
         public string? Email { get; set; }
         public string? PhoneNumber { get; set; }
+        public string? State { get; set; } 
         public string? WalletAddress { get; set; }
         public int UserTypeId { get; set; }
         public virtual UserType UserType { get; set; } = null!;
