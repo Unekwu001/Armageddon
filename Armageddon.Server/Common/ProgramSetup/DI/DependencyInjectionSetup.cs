@@ -52,6 +52,12 @@ namespace Armageddon.Server.Common.ProgramSetup.DI
             });
             services.AddApplicationDbContext(configuration);
             services.AddHostedService<EnumSeederHostedService>();
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = "localhost:6379"; //TODO: Change this in production
+                options.InstanceName = "Armageddon_";
+            });
+            services.AddSignalR();
             services.AddAuthorization();
             
 

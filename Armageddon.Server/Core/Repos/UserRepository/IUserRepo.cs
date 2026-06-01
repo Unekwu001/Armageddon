@@ -1,4 +1,5 @@
-﻿using Armageddon.Server.Data.Models.UserModels;
+﻿using Armageddon.Server.Common.Dtos;
+using Armageddon.Server.Data.Models.UserModels;
 
 namespace Armageddon.Server.Core.Repos.UserRepository
 {
@@ -22,5 +23,7 @@ namespace Armageddon.Server.Core.Repos.UserRepository
         Task<User?> ValidateUserCredentialsAsync(string email, string passwordHash, CancellationToken cancellationToken = default);
         Task<IEnumerable<User>> AddRangeAsync(IEnumerable<User> users, CancellationToken cancellationToken = default);
         Task<int> CountAsync(CancellationToken cancellationToken = default);
+        Task<IEnumerable<User>> GetAllSellersAsync(CancellationToken cancellationToken = default);
+        Task<IEnumerable<LiveSellerDto>> GetAllSellersWithLocationAsync(CancellationToken cancellationToken = default);
     }
 }

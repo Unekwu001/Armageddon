@@ -11,6 +11,9 @@ namespace Armageddon.Server.Data.Models.UserModels
         public string? PhoneNumber { get; set; }
         public string? State { get; set; } 
         public string? WalletAddress { get; set; }
+        public double? Latitude { get; set; }
+        public double? Longitude { get; set; }
+        public decimal Rating { get; set; }
         public int UserTypeId { get; set; }
         public virtual UserType UserType { get; set; } = null!;
 

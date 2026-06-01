@@ -9,6 +9,22 @@
     <Grid Padding="20">
         <VerticalStackLayout Spacing="20" VerticalOptions="Fill">
 
+            <!-- Request Summary Card -->
+            <Border BackgroundColor="#1A1A1A" 
+                    StrokeShape="RoundRectangle 12" 
+                    Padding="16">
+                <VerticalStackLayout>
+                    <Label Text="Requesting" 
+                           FontSize="15" 
+                           TextColor="#888"/>
+                    <Label x:Name="RequestSummaryLabel" 
+                           Text="Loading request..." 
+                           FontSize="20" 
+                           FontAttributes="Bold" 
+                           TextColor="White"/>
+                </VerticalStackLayout>
+            </Border>
+
             <!-- Header -->
             <Label Text="Casting Your Request" 
                    FontSize="24" 
@@ -24,7 +40,7 @@
                    HorizontalOptions="Center" 
                    FontAttributes="Bold"/>
 
-            <!-- Map / Placeholder -->
+            <!-- Live Map -->
             <ContentView HeightRequest="260">
                 <Grid>
                     <maps:Map x:Name="RequestMap" 
@@ -33,30 +49,32 @@
                               HorizontalOptions="Fill"
                               VerticalOptions="Fill"
                               IsVisible="False"/>
-                    <!-- Placeholder for Windows -->
+
+                    <!-- Placeholder -->
                     <Border BackgroundColor="#1A1A1A" 
-                            StrokeShape="RoundRectangle 12"
+                            StrokeShape="RoundRectangle 12" 
                             x:Name="MapPlaceholder">
                         <Label Text="🗺️ Live Map (Android Only)" 
                                TextColor="#888" 
                                HorizontalOptions="Center" 
-                               VerticalOptions="Center"
+                               VerticalOptions="Center" 
                                FontSize="18"/>
                     </Border>
                 </Grid>
             </ContentView>
 
             <!-- Progress Steps -->
-            <VerticalStackLayout Spacing="10">
+            <VerticalStackLayout Spacing="12">
                 <Label x:Name="Step1" Text="● Searching nearby sellers" TextColor="#00C853" FontSize="16"/>
                 <Label x:Name="Step2" Text="○ Expanding search radius" TextColor="#666" FontSize="16"/>
+                <Label x:Name="Step3" Text="○ Matching best sellers" TextColor="#666" FontSize="16"/>
             </VerticalStackLayout>
 
             <!-- Cancel Button -->
             <Button Text="Cancel Request" 
                     BackgroundColor="#FF1744" 
                     TextColor="White" 
-                    HeightRequest="56" 
+                    HeightRequest="58" 
                     CornerRadius="12"
                     FontSize="18"
                     Clicked="OnCancelClicked"/>

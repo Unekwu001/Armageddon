@@ -10,7 +10,7 @@
         <Border StrokeShape="RoundRectangle 25" 
                 BackgroundColor="#0F0F0F" 
                 Padding="20" 
-                VerticalOptions="End" 
+                VerticalOptions="Start" 
                 HeightRequest="320">
 
             <VerticalStackLayout Spacing="18">

@@ -51,6 +51,9 @@ public class AppDbContext : DbContext
             entity.Property(e => e.PasswordHash).IsRequired();
             entity.Property(e => e.PhoneNumber).HasMaxLength(20);
             entity.Property(e => e.WalletAddress).HasMaxLength(200);
+            entity.Property(e => e.Longitude).IsRequired().HasDefaultValue(3.7207);
+            entity.Property(e => e.Latitude).IsRequired().HasDefaultValue(6.4934);
+            entity.Property(e => e.Rating).IsRequired().HasDefaultValue(5);
             entity.HasQueryFilter(u => !u.IsDeleted);
 
             entity.HasIndex(x => x.UserCode).IsUnique();

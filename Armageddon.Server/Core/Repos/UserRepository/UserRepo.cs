@@ -1,4 +1,6 @@
-﻿using Armageddon.Server.Data.Db;
+﻿using Armageddon.Server.Common.Dtos;
+using Armageddon.Server.Data.Db;
+using Armageddon.Server.Data.Enums;
 using Armageddon.Server.Data.Models.UserModels;
 using Microsoft.EntityFrameworkCore;
 
@@ -143,5 +145,32 @@ namespace Armageddon.Server.Core.Repos.UserRepository
             return await _context.Users.CountAsync(x => !x.IsDeleted, cancellationToken);
         }
 
+
+        public async Task<IEnumerable<User>> GetAllSellersAsync(CancellationToken cancellationToken = default)
+        {
+            return await _context.Users
+                .AsNoTracking()
+                .Where(x => !x.IsDeleted && x.UserTypeId == (int)UserTypeEnum.Seller)
+                .ToListAsync(cancellationToken);
+        }
+
+        public async Task<IEnumerable<LiveSellerDto>> GetAllSellersWithLocationAsync(CancellationToken cancellationToken = default)
+        {
+            return await _context.Users
+                .AsNoTracking()
+                .Where(x => !x.IsDeleted
+                         && x.UserTypeId == (int)UserTypeEnum.Seller 
+                         && x.Latitude.HasValue
+                         && x.Longitude.HasValue)
+                .Select(x => new LiveSellerDto
+                {
+                    Id = x.Id,
+                    UserName = x.UserName!,
+                    Latitude = x.Latitude ?? 0,
+                    Longitude = x.Longitude?? 0,
+                    Rating = x.Rating,
+                })
+        .ToListAsync(cancellationToken);
+        }
     }
 }
